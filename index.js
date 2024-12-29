@@ -9,4 +9,8 @@ app.listen(PORT,() => {
 
 })
 
+app.get('/', (req,res) => {
+    res.send('This is my API ruunig.....')
+})
+
 module.exports = app
