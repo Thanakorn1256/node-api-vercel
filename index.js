@@ -12,6 +12,14 @@ const calculateTimeDiff = (start, end) => {
     return diffInSec;
 };
 
+// ฟังก์ชันเพื่อแปลงวินาทีเป็นรูปแบบ hh:mm:ss
+const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+};
+
 // Route เพื่อดึงข้อมูลและแสดงผล
 app.get('/', async (req, res) => {
     try {
@@ -38,13 +46,13 @@ app.get('/', async (req, res) => {
                 totalClass: data.TotalClass || '',  // ตรวจสอบว่า TotalClass มีหรือไม่
                 startSS1,
                 endSS1,
-                diff,
-                result: `Time Diff: ${diff} seconds`
+                diffInSeconds: diff,
+                result: formatTime(diff) // แปลงวินาทีเป็น hh:mm:ss
             });
         }
 
         // เรียงลำดับตามเวลาที่แตกต่างน้อยที่สุด
-        result.sort((a, b) => a.diff - b.diff);
+        result.sort((a, b) => a.diffInSeconds - b.diffInSeconds);
 
         // สร้าง HTML ตารางเพื่อแสดงผล
         let table = `
@@ -90,4 +98,3 @@ app.get('/', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`API ON PORT ${PORT}`);
 });
-
