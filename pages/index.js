@@ -12,7 +12,7 @@ export default function Home() {
       <ul>
         {events.map(event => (
           <li key={event.id}>
-            <Link href={`/event/${event.id}`}>
+            <Link href={`/eventlist/${event.id}`}>
               {event.name}
             </Link>
           </li>
